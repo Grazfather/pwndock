@@ -1,0 +1,11 @@
+#!/bin/bash
+
+docker run --rm --detach --privileged -it \
+	--net=host \
+	-v $(pwd):/mnt \
+	-v $HOME/code:/code \
+	--hostname pwn \
+	--name pwn \
+	pwn \
+	bash \
+    && echo "[+] Started"
