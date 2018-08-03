@@ -26,10 +26,7 @@ RUN apt update \
     && apt -y install gcc-multilib g++-multilib \
     && apt clean
 
-# fix rop gadget
-RUN python -m pip install capstone==3.0.5rc2
-
-# libc6-dbg
+# libc6-dbg & 32-bit libs
 RUN dpkg --add-architecture i386 \
     && apt update \
     && apt -y install libc6-dbg libc6-dbg:i386 glibc-source \
@@ -54,6 +51,12 @@ RUN python3 -m pip install arm_now
 RUN apt update \
     && apt install -y e2tools qemu \
     && apt clean
+
+# Z3
+RUN cd ~ \
+    && git clone https://github.com/Z3Prover/z3.git && cd z3 \
+    && python scripts/mk_make.py --python \
+    && cd build; make && sudo make install
 
 # Install tmux from source
 RUN apt update \
@@ -81,6 +84,12 @@ RUN cd ~ \
     && bash ./update-trinity.sh
 RUN ldconfig
 RUN python3 -m pip install ropper
+
+# Binwalk
+RUN cd ~ \
+    && git clone https://github.com/devttys0/binwalk \
+    && cd binwalk \
+    && sudo python3 setup.py install
 
 # Install dotfiles
 RUN cd ~ \
