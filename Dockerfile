@@ -74,6 +74,14 @@ RUN cd ~ \
     && git clone https://github.com/hugsy/gef.git \
     && echo "source ~/gef/gef.py" > ~/.gdbinit
 
+# Keystone, Capstone, and Unicorn
+RUN apt -y install git cmake gcc g++ pkg-config libglib2.0-dev
+RUN cd ~ \
+    && wget https://raw.githubusercontent.com/hugsy/stuff/master/update-trinity.sh \
+    && bash ./update-trinity.sh
+RUN ldconfig
+RUN python3 -m pip install ropper
+
 # Install dotfiles
 RUN cd ~ \
     && git clone https://github.com/Grazfather/dotfiles.git \
