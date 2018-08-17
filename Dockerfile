@@ -96,5 +96,7 @@ RUN cd ~ \
     && git clone https://github.com/Grazfather/dotfiles.git \
     && bash ~/dotfiles/init.sh
 
+RUN echo 'export PS1="[\[\e[34m\]\u\[\e[0m\]@\[\e[33m\]\H\[\e[0m\]:\w]\$ "' >> /root/.bashrc
+
 # work env
 WORKDIR /code
