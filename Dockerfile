@@ -92,6 +92,11 @@ RUN cd ~/tools \
     && git clone https://github.com/devttys0/binwalk && cd binwalk \
     && python3 setup.py install
 
+# Radare2
+RUN cd ~/tools \
+    && git clone https://github.com/radare/radare2 && cd radare2 \
+    && ./sys/install.sh
+
 # Install dotfiles
 RUN cd ~/tools \
     && git clone https://github.com/Grazfather/dotfiles.git \
