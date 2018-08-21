@@ -46,7 +46,7 @@ RUN ldconfig
 
 # Z3
 RUN cd ~/tools \
-    && git clone https://github.com/Z3Prover/z3.git && cd z3 \
+    && git clone --depth 1 https://github.com/Z3Prover/z3.git && cd z3 \
     && python scripts/mk_make.py --python \
     && cd build; make && make install
 
@@ -82,24 +82,24 @@ RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/lates
 
 # GEF
 RUN cd ~/tools \
-    && git clone https://github.com/hugsy/gef.git \
+    && git clone --depth 1 https://github.com/hugsy/gef.git \
     && echo "source ~/tools/gef/gef.py" > ~/.gdbinit
 
 RUN python3 -m pip install ropper
 
 # Binwalk
 RUN cd ~/tools \
-    && git clone https://github.com/devttys0/binwalk && cd binwalk \
+    && git clone --depth 1 https://github.com/devttys0/binwalk && cd binwalk \
     && python3 setup.py install
 
 # Radare2
 RUN cd ~/tools \
-    && git clone https://github.com/radare/radare2 && cd radare2 \
+    && git clone --depth 1 https://github.com/radare/radare2 && cd radare2 \
     && ./sys/install.sh
 
 # Install dotfiles
 RUN cd ~/tools \
-    && git clone https://github.com/Grazfather/dotfiles.git \
+    && git clone --depth 1 https://github.com/Grazfather/dotfiles.git \
     && bash ~/tools/dotfiles/init.sh
 
 RUN echo 'export PS1="[\[\e[34m\]\u\[\e[0m\]@\[\e[33m\]\H\[\e[0m\]:\w]\$ "' >> /root/.bashrc
