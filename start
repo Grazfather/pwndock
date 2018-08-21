@@ -3,7 +3,7 @@
 docker run --rm --detach --privileged -it \
 	--net=host \
 	-v $(pwd):/mnt \
-	-v $HOME/code:/code \
+	-v $HOME/code:/root/code \
 	--hostname pwn \
 	--name pwn \
 	pwn \

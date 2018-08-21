@@ -110,4 +110,4 @@ RUN cd ~/tools \
 RUN echo 'export PS1="[\[\e[34m\]\u\[\e[0m\]@\[\e[33m\]\H\[\e[0m\]:\w]\$ "' >> /root/.bashrc
 
 # work env
-WORKDIR /code
+WORKDIR /root/code
