@@ -15,7 +15,7 @@ RUN mkdir ~/tools
 # base tools
 RUN apt update \
     && apt -y install vim patchelf netcat socat strace ltrace curl wget git gdb \
-    && apt -y install man sudo \
+    && apt -y install man sudo inetutils-ping \
     && apt clean
 
 RUN apt update \
