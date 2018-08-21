@@ -83,7 +83,7 @@ RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/lates
 # GEF
 RUN cd ~/tools \
     && git clone https://github.com/hugsy/gef.git \
-    && echo "source ~/gef/gef.py" > ~/.gdbinit
+    && echo "source ~/tools/gef/gef.py" > ~/.gdbinit
 
 RUN python3 -m pip install ropper
 
