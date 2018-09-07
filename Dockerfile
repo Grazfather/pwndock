@@ -66,6 +66,9 @@ RUN apt update \
     && apt install -y e2tools qemu \
     && apt clean
 
+# ropper
+RUN python3 -m pip install ropper
+
 # Ripgrep
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep_0.9.0_amd64.deb \
     && dpkg -i ripgrep_0.9.0_amd64.deb \
