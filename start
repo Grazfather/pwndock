@@ -5,7 +5,7 @@ docker run --rm --detach --privileged -it \
 	-v $(pwd):/mnt \
 	-v $HOME/code:/root/code \
 	--hostname pwn \
-	--name pwn \
-	pwn \
+	--name pwndock \
+	pwndock \
 	bash \
     && echo "[+] Started"
