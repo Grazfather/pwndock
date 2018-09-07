@@ -66,6 +66,21 @@ RUN apt update \
     && apt install -y e2tools qemu \
     && apt clean
 
+# Ripgrep
+RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep_0.9.0_amd64.deb \
+    && dpkg -i ripgrep_0.9.0_amd64.deb \
+    && rm ripgrep_0.9.0_amd64.deb
+
+# Binwalk
+RUN cd ~/tools \
+    && git clone --depth 1 https://github.com/devttys0/binwalk && cd binwalk \
+    && python3 setup.py install
+
+# Radare2
+RUN cd ~/tools \
+    && git clone --depth 1 https://github.com/radare/radare2 && cd radare2 \
+    && ./sys/install.sh
+
 # Install tmux from source
 RUN apt update \
     && apt -y install libevent-dev libncurses-dev \
@@ -79,35 +94,3 @@ RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/lates
     && cd .. \
     && rm -rf tmux-$TMUX_VERSION* \
     && echo "tmux hold" | dpkg --set-selections # disable tmux update from apt
-
-# Ripgrep
-RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep_0.9.0_amd64.deb \
-    && dpkg -i ripgrep_0.9.0_amd64.deb \
-    && rm ripgrep_0.9.0_amd64.deb
-
-# GEF
-RUN cd ~/tools \
-    && git clone --depth 1 https://github.com/hugsy/gef.git \
-    && echo "source ~/tools/gef/gef.py" > ~/.gdbinit
-
-RUN python3 -m pip install ropper
-
-# Binwalk
-RUN cd ~/tools \
-    && git clone --depth 1 https://github.com/devttys0/binwalk && cd binwalk \
-    && python3 setup.py install
-
-# Radare2
-RUN cd ~/tools \
-    && git clone --depth 1 https://github.com/radare/radare2 && cd radare2 \
-    && ./sys/install.sh
-
-# Install dotfiles
-RUN cd ~/tools \
-    && git clone --depth 1 https://github.com/Grazfather/dotfiles.git \
-    && bash ~/tools/dotfiles/init.sh
-
-RUN echo 'export PS1="[\[\e[34m\]\u\[\e[0m\]@\[\e[33m\]\H\[\e[0m\]:\w]\$ "' >> /root/.bashrc
-
-# work env
-WORKDIR /root/code
