@@ -51,7 +51,7 @@ RUN cd ~/tools \
     && cd build; make && make install
 
 # pwntools
-RUN python -m pip install pwntools
+RUN python -m pip install pwntools==3.12.1
 
 # one_gadget
 RUN apt update \
