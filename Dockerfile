@@ -70,6 +70,11 @@ RUN apt update \
     && apt -y install --no-install-recommends e2tools qemu \
     && apt clean
 
+# Arm cross compilers
+RUN apt update \
+    && apt -y install --no-install-recommends gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
+    && apt clean
+
 # ropper
 RUN python3 -m pip install ropper
 
