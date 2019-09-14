@@ -14,31 +14,35 @@ RUN mkdir ~/tools
 
 # base tools
 RUN apt update \
-    && apt -y install vim patchelf netcat socat lsof strace ltrace curl wget git gdb \
-    && apt -y install man sudo inetutils-ping \
+    && apt -y install --no-install-recommends vim patchelf netcat socat lsof strace ltrace curl wget git gdb \
+    && apt -y install --no-install-recommends man sudo inetutils-ping \
     && apt clean
 
 RUN apt update \
-    && apt -y install python-dev python-pip \
-    && apt -y install python3-dev python3-pip \
+    && apt -y install --no-install-recommends python-dev python-pip \
+    && apt -y install --no-install-recommends python3-dev python3-pip \
     && apt clean
 
-RUN python3 -m pip install --upgrade pip
-RUN python -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pip \
+    && python -m pip install --upgrade pip \
+    && python2 -m pip install setuptools \
+    && python3 -m pip install setuptools
 
 RUN apt update \
-    && apt -y install gcc-multilib g++-multilib \
+    && apt -y install --no-install-recommends gcc-multilib g++-multilib \
     && apt clean
 
 # libc6-dbg & 32-bit libs
 RUN dpkg --add-architecture i386 \
     && apt update \
-    && apt -y install libc6-dbg libc6-dbg:i386 glibc-source \
+    && apt -y install --no-install-recommends xz-utils libc6-dbg libc6-dbg:i386 glibc-source \
     && apt clean \
-    && tar -C /usr/src/glibc/ -xvf /usr/src/glibc/glibc-*.tar.xz
+    && tar -C /usr/src/glibc/ -xf /usr/src/glibc/glibc-*.tar.xz
 
 # Keystone, Capstone, and Unicorn
-RUN apt -y install git cmake gcc g++ pkg-config libglib2.0-dev
+RUN apt update \
+    && apt -y install --no-install-recommends git cmake gcc g++ pkg-config libglib2.0-dev \
+    && apt clean
 RUN cd ~/tools \
     && wget https://raw.githubusercontent.com/hugsy/stuff/master/update-trinity.sh \
     && bash ./update-trinity.sh
@@ -47,7 +51,7 @@ RUN ldconfig
 # Z3
 RUN cd ~/tools \
     && git clone --depth 1 https://github.com/Z3Prover/z3.git && cd z3 \
-    && python scripts/mk_make.py --python \
+    && python3 scripts/mk_make.py --python \
     && cd build; make && make install
 
 # pwntools
@@ -55,7 +59,7 @@ RUN python -m pip install pwntools==3.12.1
 
 # one_gadget
 RUN apt update \
-    && apt install -y ruby-full \
+    && apt -y install --no-install-recommends ruby-full \
     && apt clean
 RUN gem install one_gadget
 
@@ -63,7 +67,7 @@ RUN gem install one_gadget
 RUN python3 -m pip install arm_now
 
 RUN apt update \
-    && apt install -y e2tools qemu \
+    && apt -y install --no-install-recommends e2tools qemu \
     && apt clean
 
 # ropper
@@ -86,12 +90,12 @@ RUN cd ~/tools \
 
 # Install tmux from source
 RUN apt update \
-    && apt -y install libevent-dev libncurses-dev \
+    && apt -y install --no-install-recommends libevent-dev libncurses-dev \
     && apt clean
 
 RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') \
     && wget https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/tmux-$TMUX_VERSION.tar.gz \
-    && tar zxvf tmux-$TMUX_VERSION.tar.gz \
+    && tar zxf tmux-$TMUX_VERSION.tar.gz \
     && cd tmux-$TMUX_VERSION \
     && ./configure && make && make install \
     && cd .. \
