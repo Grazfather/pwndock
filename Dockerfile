@@ -54,6 +54,9 @@ RUN cd ~/tools \
     && python3 scripts/mk_make.py --python \
     && cd build; make && make install
 
+# Angr
+RUN python3 -m pip install angr
+
 # pwntools
 RUN python -m pip install pwntools==3.12.1
 
@@ -70,7 +73,7 @@ RUN apt update \
     && apt -y install --no-install-recommends e2tools qemu \
     && apt clean
 
-# Arm cross compilers
+# ARM cross compilers
 RUN apt update \
     && apt -y install --no-install-recommends gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
     && apt clean
