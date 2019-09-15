@@ -14,8 +14,8 @@ RUN mkdir ~/tools
 
 # base tools
 RUN apt update \
-    && apt -y install --no-install-recommends vim patchelf netcat socat lsof strace ltrace curl wget git gdb \
-    && apt -y install --no-install-recommends man sudo inetutils-ping \
+    && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file \
+    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping \
     && apt clean
 
 RUN apt update \
@@ -59,6 +59,7 @@ RUN python3 -m pip install angr
 
 # pwntools
 RUN python -m pip install pwntools==3.12.1
+RUN python3 -m pip install --upgrade git+https://github.com/Gallopsled/pwntools.git@dev3
 
 # one_gadget
 RUN apt update \
@@ -111,8 +112,8 @@ RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/lates
     && echo "tmux hold" | dpkg --set-selections # disable tmux update from apt
 
 # Install Go
-# This is taken from https://raw.githubusercontent.com/docker-library/golang/master/1.11/stretch/Dockerfile
-ENV GOLANG_VERSION 1.11
+# This is taken from https://raw.githubusercontent.com/docker-library/golang/master/1.13/stretch/Dockerfile
+ENV GOLANG_VERSION 1.13
 
 RUN set -eux; \
 	\
