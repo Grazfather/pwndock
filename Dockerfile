@@ -16,7 +16,7 @@ RUN mkdir ~/tools
 # base tools
 RUN apt update \
     && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file \
-    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping \
+    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping less \
     && apt clean
 
 RUN apt update \
