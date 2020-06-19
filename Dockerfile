@@ -21,13 +21,24 @@ RUN apt update \
 
 RUN apt update \
     && apt -y install --no-install-recommends python-dev python-pip \
-    && apt -y install --no-install-recommends python3-dev python3-pip \
     && apt clean
 
+# Install python3.8
+RUN apt -y install --no-install-recommends software-properties-common \
+    && add-apt-repository -y ppa:deadsnakes/ppa \
+    && apt update \
+    && apt -y install python3.8-dev python3.8-venv python3-pip
+RUN python3.8 -m venv /root/py38
+ENV PATH="/root/py38/bin:${PATH}"
+
 RUN python3 -m pip install --upgrade pip \
-    && python -m pip install --upgrade pip \
-    && python2 -m pip install setuptools \
-    && python3 -m pip install setuptools
+    && python2 -m pip install --upgrade pip \
+    && python3 -m pip install setuptools \
+    && python2 -m pip install setuptools
+
+RUN python2 -m pip install --upgrade pip \
+    && python2 -m pip install setuptools
+RUN python3 -m pip install --upgrade pwntools
 
 RUN apt update \
     && apt -y install --no-install-recommends gcc-multilib g++-multilib \
@@ -59,8 +70,8 @@ RUN cd ~/tools \
 RUN python3 -m pip install angr
 
 # pwntools
-RUN python -m pip install pwntools==3.12.1
-RUN python3 -m pip install --upgrade git+https://github.com/Gallopsled/pwntools.git@dev3
+RUN python -m pip install pwntools
+RUN python3 -m pip install --upgrade pwntools
 
 # one_gadget
 RUN apt update \
