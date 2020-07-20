@@ -16,7 +16,7 @@ RUN mkdir ~/tools
 # base tools
 RUN apt update \
     && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file \
-    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping less \
+    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping less jq \
     && apt clean
 
 RUN apt update \
@@ -95,9 +95,10 @@ RUN apt update \
 RUN python3 -m pip install ropper
 
 # Ripgrep
-RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.9.0/ripgrep_0.9.0_amd64.deb \
-    && dpkg -i ripgrep_0.9.0_amd64.deb \
-    && rm ripgrep_0.9.0_amd64.deb
+RUN RIPGREP_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq .tag_name | sed 's/\"//g') \
+    && curl -LO https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSION}/ripgrep_${RIPGREP_VERSION}_amd64.deb \
+    && dpkg -i ripgrep_${RIPGREP_VERSION}_amd64.deb \
+    && rm ripgrep_${RIPGREP_VERSION}_amd64.deb
 
 # Binwalk
 RUN cd ~/tools \
