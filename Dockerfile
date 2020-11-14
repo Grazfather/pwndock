@@ -95,7 +95,7 @@ RUN apt update \
 RUN python3 -m pip install ropper
 
 # Ripgrep
-RUN RIPGREP_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq .tag_name | sed 's/\"//g') \
+RUN RIPGREP_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r .tag_name) \
     && curl -LO https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSION}/ripgrep_${RIPGREP_VERSION}_amd64.deb \
     && dpkg -i ripgrep_${RIPGREP_VERSION}_amd64.deb \
     && rm ripgrep_${RIPGREP_VERSION}_amd64.deb
@@ -115,7 +115,7 @@ RUN apt update \
     && apt -y install --no-install-recommends libevent-dev libncurses-dev \
     && apt clean
 
-RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') \
+RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r .tag_name) \
     && wget https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/tmux-$TMUX_VERSION.tar.gz \
     && tar zxf tmux-$TMUX_VERSION.tar.gz \
     && cd tmux-$TMUX_VERSION \
