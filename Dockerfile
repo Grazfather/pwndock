@@ -1,5 +1,5 @@
-FROM golang:1.13-stretch AS golang
-FROM ubuntu:16.04
+FROM golang:1.15-buster AS golang
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
