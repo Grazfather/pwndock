@@ -1,5 +1,5 @@
-FROM golang:1.15-buster AS golang
-FROM ubuntu:18.04
+FROM golang:1.16-buster AS golang
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -128,5 +128,8 @@ RUN TMUX_VERSION=$(curl -s https://api.github.com/repos/tmux/tmux/releases/lates
 COPY --from=golang /usr/local/go /usr/local/go
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+# Install babashka (clojure)
+RUN curl -s https://raw.githubusercontent.com/babashka/babashka/master/install | bash
 
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
