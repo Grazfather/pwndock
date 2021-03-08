@@ -15,12 +15,8 @@ RUN mkdir ~/tools
 
 # base tools
 RUN apt update \
-    && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file \
-    && apt -y install --no-install-recommends curl wget git gdb man sudo inetutils-ping less jq \
-    && apt clean
-
-RUN apt update \
-    && apt -y install --no-install-recommends python-dev python-pip \
+    && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file unzip \
+    && apt -y install --no-install-recommends curl wget git gdb g++ man sudo inetutils-ping less jq \
     && apt clean
 
 # Install python3.8
@@ -32,13 +28,7 @@ RUN python3.8 -m venv /root/py38
 ENV PATH="/root/py38/bin:${PATH}"
 
 RUN python3 -m pip install --upgrade pip \
-    && python2 -m pip install --upgrade pip \
-    && python3 -m pip install setuptools \
-    && python2 -m pip install setuptools
-
-RUN python2 -m pip install --upgrade pip \
-    && python2 -m pip install setuptools
-RUN python3 -m pip install --upgrade pwntools
+    && python3 -m pip install setuptools
 
 RUN apt update \
     && apt -y install --no-install-recommends gcc-multilib g++-multilib \
@@ -51,14 +41,6 @@ RUN dpkg --add-architecture i386 \
     && apt clean \
     && tar -C /usr/src/glibc/ -xf /usr/src/glibc/glibc-*.tar.xz
 
-# Keystone, Capstone, and Unicorn
-RUN apt update \
-    && apt -y install --no-install-recommends git cmake gcc g++ pkg-config libglib2.0-dev \
-    && apt clean
-RUN cd ~/tools \
-    && wget https://raw.githubusercontent.com/hugsy/stuff/master/update-trinity.sh \
-    && bash ./update-trinity.sh
-RUN ldconfig
 
 # Z3
 RUN cd ~/tools \
@@ -70,7 +52,6 @@ RUN cd ~/tools \
 RUN python3 -m pip install angr
 
 # pwntools
-RUN python -m pip install pwntools
 RUN python3 -m pip install --upgrade pwntools
 
 # one_gadget
@@ -78,9 +59,6 @@ RUN apt update \
     && apt -y install --no-install-recommends ruby-full \
     && apt clean
 RUN gem install one_gadget
-
-# arm_now
-RUN python3 -m pip install arm_now
 
 RUN apt update \
     && apt -y install --no-install-recommends e2tools qemu \
