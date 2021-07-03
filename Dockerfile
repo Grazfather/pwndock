@@ -15,8 +15,9 @@ RUN mkdir ~/tools
 
 # base tools
 RUN apt update \
-    && apt -y install --no-install-recommends lsof strace ltrace vim patchelf netcat socat file unzip \
-    && apt -y install --no-install-recommends curl wget git gdb g++ man sudo inetutils-ping less jq \
+    && apt -y install --no-install-recommends lsof strace ltrace neovim vim \
+        patchelf netcat socat file unzip curl wget git gdb g++ man sudo \
+        inetutils-ping less jq \
     && apt clean
 
 # Install python3.8
@@ -40,7 +41,6 @@ RUN dpkg --add-architecture i386 \
     && apt -y install --no-install-recommends xz-utils libc6-dbg libc6-dbg:i386 glibc-source \
     && apt clean \
     && tar -C /usr/src/glibc/ -xf /usr/src/glibc/glibc-*.tar.xz
-
 
 # Z3
 RUN cd ~/tools \
